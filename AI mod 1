@@ -1,0 +1,65 @@
+# Gather data from database about student and ask the student pointed questions
+major = input("Has this student selected a major? (yes/no) ").strip().lower()
+if major == "yes":
+    major_name = input("What is your major? ").strip().lower()
+else:
+    interests = input("What are your academic interests? ").strip().lower()
+
+enrolled = input("Are you currently enrolled in classes? (yes/no) ").strip().lower()
+
+if enrolled == "yes":
+    year = int(input("What is your year? (1-5) "))
+
+    # Determine classification
+    if year == 1:
+        classification = "freshman"
+        print("Freshman")
+    elif year == 2:
+        classification = "sophomore"
+        print("Sophomore")
+    elif year == 3:
+        classification = "junior"
+        print("Junior")
+    elif year == 4:
+        classification = "senior"
+        print("Senior")
+    elif year == 5:
+        grad = input("Graduate Student? (yes/no) ").strip().lower()
+        if grad == "yes":
+            classification = "graduate"
+            print("Graduate Student")
+        else:
+            classification = "5th year senior"
+            print("Fifth year senior")
+else:
+    enroll = input("Would you like to enroll? (yes/no) ").strip().lower()
+    classification = None  # No year if not enrolled
+
+# Additional questions for specific rules
+bachelors_degree = input("Do we have a bachelor's degree on file? (yes/no) ").strip().lower()
+if bachelors_degree == "yes":
+    print("Graduate Student")
+else:
+    print("Still enrolled for bachelor's degree")
+
+final_semester = input("Is this your final semester? (yes/no) ").strip().lower()
+
+# Rule 1: Computer Science + Freshman
+if major == "yes" and major_name == "computer science" and classification == "freshman":
+    print("You should take Introduction to Databases.")
+
+# Rule 2: Senior + final semester
+if classification == "senior" and final_semester == "yes":
+    print("You should apply for graduation.")
+
+#Rule 3: No major but freshmen should meet with advisor
+if major == "no" and classification == "freshman":
+    print("You should meet with an academic advisor to explore majors.")
+
+#Rule 4: Graduate Student + No Bachelor's Degree on File
+if classification == "graduate" and bachelors_degree == "no":
+    print("Please contact the registrar to verify your bachelor's degree documentation.")
+
+#Rule 5: Senior + Not Final Semester
+if classification == "senior" and final_semester == "no":
+    print("Review your degree audit or speak to an advisor if you are going to be a fifth year senior")
